@@ -1,4 +1,15 @@
 services:
+  mongo:
+    image: mongo:7
+    container_name: churn-mongo
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER:-admin}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-Admin@123}
+      - MONGO_INITDB_DATABASE=churnDB
+    volumes:
+      - mongo_data:/data/db
+
   frontend:
     build:
       context: ./frontend
@@ -18,12 +29,13 @@ services:
       - "5000:5000"
     environment:
       - PORT=5000
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=mongodb://${MONGO_USER:-admin}:${MONGO_PASSWORD:-Admin@123}@mongo:27017/churnDB?authSource=admin
       - AI_SERVICE_URL=http://ai:8000
       - JWT_SECRET=${JWT_SECRET:-supersecretjwtkey2024}
       - PASSWORD=${PASSWORD}
     depends_on:
       - ai
+      - mongo
     restart: unless-stopped
 
   ai:
@@ -40,3 +52,6 @@ services:
       retries: 12
       start_period: 60s
     restart: unless-stopped
+
+volumes:
+  mongo_data:

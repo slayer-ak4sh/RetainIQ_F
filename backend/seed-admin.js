@@ -25,7 +25,9 @@ const ADMIN = {
 };
 
 async function seed() {
-  await mongoose.connect(process.env.MONGO_URI);
+  const uri = process.env.MONGO_URI ||
+    `mongodb://${process.env.MONGO_USER || 'admin'}:${process.env.MONGO_PASSWORD || 'Admin@123'}@localhost:27017/churnDB?authSource=admin`;
+  await mongoose.connect(uri);
   console.log("MongoDB connected");
 
   const existing = await User.findOne({ email: ADMIN.email });
