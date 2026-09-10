@@ -30,20 +30,18 @@ export const listAllInteractions = async (req, res) => {
 
 export const addInteraction = async (req, res) => {
   try {
-    console.log("=== ADD INTERACTION DEBUG ===");
-    console.log("USER:", req.user);
-    console.log("BODY:", req.body);
 
     if (req.user.role === "customer") {
+      if (!req.user.customer) {
+        return res.status(400).json({ error: "No customer profile linked to your account" });
+      }
       const item = await Interaction.create({
-        customer: req.user._id,
+        customer: req.user.customer,
         type: "complaint",
         title: req.body.title,
         notes: req.body.notes || "",
         severity: "medium",
       });
-
-      console.log("CUSTOMER COMPLAINT CREATED:", item);
 
       return res.status(201).json(item);
     }
@@ -54,7 +52,6 @@ export const addInteraction = async (req, res) => {
 
   } catch (err) {
     console.error("ADD INTERACTION ERROR:", err);
-
     return res.status(400).json({
       error: err.message,
     });

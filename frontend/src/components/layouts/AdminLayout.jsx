@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { LayoutGrid, Users, UserCog, BarChart3, Brain, LogOut } from "lucide-react";
+import { LayoutGrid, Users, UserCog, BarChart3, Brain, MessageSquare, LogOut } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
 const links = [
@@ -7,7 +7,8 @@ const links = [
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/employees", label: "Employees", icon: UserCog },
   { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/admin/predictions", label: "Predictions", icon: Brain }
+  { to: "/admin/predictions", label: "Predictions", icon: Brain },
+  { to: "/admin/interactions", label: "Interactions", icon: MessageSquare }
 ];
 
 export default function AdminLayout() {

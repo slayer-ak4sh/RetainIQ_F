@@ -22,13 +22,14 @@ export default function PredictionsList(){
 
   const [predictions,setPredictions] = useState([]);
   const [loading,setLoading] = useState(true);
+  const [error,setError] = useState("");
 
 
   useEffect(()=>{
 
     getAllPredictions()
       .then(setPredictions)
-      .catch(()=>setPredictions([]))
+      .catch((err)=>setError(err.response?.data?.error || "Failed to load predictions"))
       .finally(()=>setLoading(false));
 
   },[]);
@@ -48,6 +49,10 @@ export default function PredictionsList(){
         loading
         ?
         <Loading />
+        :
+        error
+        ?
+        <p style={{ color:"var(--risk-high)", marginTop:20 }}>{error}</p>
         :
         <div className="card" style={{ marginTop:20, padding:20, overflowX:"auto" }}>
 

@@ -19,6 +19,7 @@ import AdminEditCustomer from "./pages/admin/AdminEditCustomer.jsx";
 import Employees from "./pages/admin/Employees.jsx";
 import AdminAnalytics from "./pages/admin/AdminAnalytics.jsx";
 import AdminPredictions from "./pages/admin/AdminPredictions.jsx";
+import AdminInteractions from "./pages/admin/AdminInteractions.jsx";
 
 // Employee (reuses the generic customer-management pages)
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard.jsx";
@@ -83,6 +84,7 @@ export default function App() {
         <Route path="employees" element={<Employees />} />
         <Route path="analytics" element={<AdminAnalytics />} />
         <Route path="predictions" element={<AdminPredictions />} />
+        <Route path="interactions" element={<AdminInteractions />} />
       </Route>
 
       {/* EMPLOYEE ROUTES */}
