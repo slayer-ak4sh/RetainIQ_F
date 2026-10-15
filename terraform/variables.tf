@@ -23,15 +23,17 @@ variable "gemini_api_key" {
 }
 
 variable "mongo_uri" {
-  description = "MongoDB Atlas connection string"
+  description = "MongoDB Atlas connection string (leave empty to use local Docker MongoDB)"
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "db_password" {
-  description = "MongoDB Atlas password (also used as PASSWORD env var)"
+  description = "MongoDB password"
   type        = string
   sensitive   = true
+  default     = "Admin@123"
 }
 
 variable "repo_url" {
