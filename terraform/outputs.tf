@@ -11,7 +11,7 @@ output "frontend_url" {
 }
 
 output "backend_url" {
-  value = "http://${aws_eip.app.public_ip}:5000"
+  value = "http://${aws_eip.app.public_ip}:8080"
 }
 
 output "ai_url" {

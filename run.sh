@@ -28,7 +28,7 @@ run_docker() {
 
   ok "All services running:"
   echo "  Frontend  → http://localhost:80"
-  echo "  Backend   → http://localhost:5000"
+  echo "  Backend   → http://localhost:8080"
   echo "  AI        → http://localhost:8001"
   echo "  SHAP API  → http://localhost:8001/shap"
   echo ""
@@ -39,8 +39,8 @@ run_docker() {
 # ── Local mode (no Docker) ─────────────────────────────────────────────────
 run_local() {
   command -v python3 &>/dev/null || die "python3 not found."
-  command -v node    &>/dev/null || die "node not found."
-  command -v npm     &>/dev/null || die "npm not found."
+  command -v java    &>/dev/null || die "java not found (JDK 17+ required)."
+  command -v mvn     &>/dev/null || die "mvn not found (Maven required)."
 
   [ -f "$ROOT/.env" ] && export $(grep -v '^#' "$ROOT/.env" | xargs)
 
@@ -59,12 +59,12 @@ run_local() {
   AI_PID=$!
 
   # ── Backend ───────────────────────────────────────────────────────────
-  info "Installing backend dependencies..."
+  info "Building backend (Spring Boot)..."
   cd "$ROOT/backend"
-  npm install --silent
+  mvn package -DskipTests -q
 
-  info "Starting backend (port 5000)..."
-  npm start &
+  info "Starting backend (port 8080)..."
+  java -jar target/churn-backend-1.0.0.jar &
   BACKEND_PID=$!
 
   # ── Frontend ──────────────────────────────────────────────────────────
@@ -78,7 +78,7 @@ run_local() {
 
   ok "All services started:"
   echo "  Frontend  → http://localhost:5173"
-  echo "  Backend   → http://localhost:5000"
+  echo "  Backend   → http://localhost:8080"
   echo "  AI        → http://localhost:8000"
   echo "  SHAP API  → http://localhost:8000/shap"
   echo ""

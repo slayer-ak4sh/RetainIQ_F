@@ -30,11 +30,13 @@ PUBLIC_IP=$(curl -s --max-time 5 http://169.254.169.254/latest/meta-data/public-
 # ── Write .env ────────────────────────────────────────────────────────────
 cat > .env <<EOF
 GEMINI_API_KEY=${gemini_api_key}
-MONGO_URI=${mongo_uri}
+MONGO_USER=admin
+MONGO_PASSWORD=Admin@123
+MONGO_PASSWORD_ENCODED=Admin%40123
 AI_SERVICE_URL=http://ai:8000
-PASSWORD=${db_password}
+PASSWORD=Admin@123
+JWT_SECRET=supersecretjwtkey2024supersecretjwtkey2024
 VITE_API_URL=http://$PUBLIC_IP/api
-JWT_SECRET=supersecretjwtkey2024
 EOF
 
 chown -R ubuntu:ubuntu /home/ubuntu/Telecom-Churn-Intelligence

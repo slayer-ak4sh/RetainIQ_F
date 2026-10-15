@@ -1,5 +1,5 @@
 aws_region    = "ap-south-1"
-instance_type = "t3.small"
+instance_type = "t3.micro"
 repo_url      = "https://github.com/Amit-Gupta75/Telecom-Churn-Intelligence.git"
 
 # ── Sensitive values — set via env vars, never commit real values ─────────
