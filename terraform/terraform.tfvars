@@ -1,6 +1,6 @@
 aws_region    = "ap-south-1"
 instance_type = "t3.micro"
-repo_url      = "https://github.com/Amit-Gupta75/Telecom-Churn-Intelligence.git"
+repo_url      = "https://github.com/slayer-ak4sh/RetainIQ_F.git"
 
 # ── Sensitive values — set via env vars, never commit real values ─────────
 # gemini_api_key = "..."   # export TF_VAR_gemini_api_key=...

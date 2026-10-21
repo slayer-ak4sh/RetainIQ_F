@@ -2,7 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Zap } from "lucide-react";
+
+const DEMO_ACCOUNTS = [
+  { label: "Admin", email: "admin@retainiq.com", password: "Admin@123" },
+  { label: "Employee", email: "employee@retainiq.com", password: "Emp@123" },
+  { label: "Customer", email: "customer@retainiq.com", password: "Cust@123" },
+];
 
 
 export default function Login(){
@@ -19,8 +25,24 @@ password:""
 
 
 const [error,setError] = useState("");
-
 const [loading,setLoading] = useState(false);
+
+const quickLogin = async (email, password) => {
+  try {
+    setLoading(true);
+    setError("");
+    setForm({ email, password });
+    const data = await loginUser({ email, password });
+    login(data);
+    if (data.user.role === "admin") navigate("/admin");
+    else if (data.user.role === "employee") navigate("/employee");
+    else navigate("/customer");
+  } catch {
+    setError("Demo account not set up yet. See README.");
+  } finally {
+    setLoading(false);
+  }
+};
 
 
 
@@ -108,15 +130,33 @@ marginBottom:25
 }}
 >
 
-<ShieldCheck
-size={30}
-color="var(--signal-mid)"
-/>
+<ShieldCheck size={30} color="var(--signal-mid)" />
+<h2>Telecom Intelligence</h2>
+</div>
 
-<h2>
-Telecom Intelligence
-</h2>
-
+<div style={{ background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "12px 14px", marginBottom: 20 }}>
+  <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}>
+    <Zap size={14} color="var(--signal-mid)" />
+    <span style={{ fontSize: 12, fontWeight: 600, color: "var(--signal-mid)", textTransform: "uppercase", letterSpacing: 0.5 }}>Demo Quick Login</span>
+  </div>
+  <div style={{ display: "flex", gap: 8 }}>
+    {DEMO_ACCOUNTS.map((a) => (
+      <button
+        key={a.label}
+        type="button"
+        onClick={() => quickLogin(a.email, a.password)}
+        disabled={loading}
+        style={{ flex: 1, padding: "6px 0", fontSize: 12, fontWeight: 600, borderRadius: 6, border: "1px solid var(--border)", background: "var(--surface)", color: "var(--ink)", cursor: "pointer" }}
+      >
+        {a.label}
+      </button>
+    ))}
+  </div>
+  <div style={{ marginTop: 10, fontSize: 11, color: "var(--ink-muted)", lineHeight: 1.6 }}>
+    <div>Admin: admin@retainiq.com / Admin@123</div>
+    <div>Employee: employee@retainiq.com / Emp@123</div>
+    <div>Customer: customer@retainiq.com / Cust@123</div>
+  </div>
 </div>
 
 
